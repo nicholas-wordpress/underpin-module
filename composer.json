@@ -1,5 +1,5 @@
 {
-    "name": "nicholas/core",
+    "name": "nicholas-wordpress/core",
     "description": "Nearly-headless application support for WordPress themes",
     "type": "project",
     "license": "MIT",
