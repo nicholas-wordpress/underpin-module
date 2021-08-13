@@ -80,6 +80,33 @@ class Nicholas extends Underpin {
 	protected $version = '1.0.0';
 
 	/**
+	 * Setup plugin params using the provided __FILE__
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected function _setup_params( $file ) {
+
+		// Root file for this plugin. Used in activation hooks.
+		$this->file = trailingslashit( get_template_directory() ) . 'functions.php';
+
+		// Root directory for this plugin.
+		$this->dir = get_template_directory();
+
+		$this->url = get_template_directory_uri();
+
+		// The CSS URL for this plugin. Used in asset loading.
+		$this->css_url = $this->url . 'build';
+
+		// The JS URL for this plugin. Used in asset loading.
+		$this->js_url = $this->url . 'build';
+
+		// The template directory. Used by the template loader to determine where templates are stored.
+		$this->template_dir = $this->dir . 'templates/';
+	}
+
+	/**
 	 * Simulates a REST API request.
 	 *
 	 * @since 1.0.0
