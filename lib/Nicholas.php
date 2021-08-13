@@ -39,7 +39,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string Complete namespace for all loaders.
 	 */
-	protected $root_namespace = 'Underpin_Nicholas';
+	protected $root_namespace = 'Nicholas';
 
 	/**
 	 * Translation Text domain.
@@ -316,29 +316,29 @@ class Nicholas extends Underpin {
 	 * @return void
 	 */
 	protected function _setup() {
-		$this->loaders()->add( 'templates', [ 'registry' => 'Underpin_Nicholas\Loaders\Templates' ] );
+		$this->loaders()->add( 'templates', [ 'registry' => 'Nicholas\Loaders\Templates' ] );
 
 		/**
 		 * Register default scripts.
 		 */
-		$this->scripts()->add( 'theme', 'Underpin_Nicholas\Scripts\Theme' );
-		$this->scripts()->add( 'editor', 'Underpin_Nicholas\Scripts\Editor' );
-		$this->scripts()->add( 'admin', 'Underpin_Nicholas\Scripts\Admin' );
+		$this->scripts()->add( 'theme', 'Nicholas\Scripts\Theme' );
+		$this->scripts()->add( 'editor', 'Nicholas\Scripts\Editor' );
+		$this->scripts()->add( 'admin', 'Nicholas\Scripts\Admin' );
 
 		/**
 		 * Register REST Endpoints
 		 */
-		$this->rest_endpoints()->add( 'page_data', 'Underpin_Nicholas\Rest_Endpoints\Page_Data' );
-		$this->rest_endpoints()->add( 'compatibility_mode_urls', 'Underpin_Nicholas\Rest_Endpoints\Compatibility_Mode_Urls' );
-		$this->rest_endpoints()->add( 'get_settings', 'Underpin_Nicholas\Rest_Endpoints\Get_Settings' );
-		$this->rest_endpoints()->add( 'update_settings', 'Underpin_Nicholas\Rest_Endpoints\Update_Settings' );
-		$this->rest_endpoints()->add( 'last_updated', 'Underpin_Nicholas\Rest_Endpoints\Cache_Status' );
-		$this->rest_endpoints()->add( 'last_updated', 'Underpin_Nicholas\Rest_Endpoints\Comment_Output' );
+		$this->rest_endpoints()->add( 'page_data', 'Nicholas\Rest_Endpoints\Page_Data' );
+		$this->rest_endpoints()->add( 'compatibility_mode_urls', 'Nicholas\Rest_Endpoints\Compatibility_Mode_Urls' );
+		$this->rest_endpoints()->add( 'get_settings', 'Nicholas\Rest_Endpoints\Get_Settings' );
+		$this->rest_endpoints()->add( 'update_settings', 'Nicholas\Rest_Endpoints\Update_Settings' );
+		$this->rest_endpoints()->add( 'last_updated', 'Nicholas\Rest_Endpoints\Cache_Status' );
+		$this->rest_endpoints()->add( 'last_updated', 'Nicholas\Rest_Endpoints\Comment_Output' );
 
 		/**
 		 * Register Options
 		 */
-		$this->options()->add( 'compatibility_mode_urls', 'Underpin_Nicholas\Options\Compatibility_Mode_Urls' );
+		$this->options()->add( 'compatibility_mode_urls', 'Nicholas\Options\Compatibility_Mode_Urls' );
 		$this->options()->add( 'theme_last_updated', [
 			'key'           => 'theme_last_updated',
 			'default_value' => '',

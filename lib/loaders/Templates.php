@@ -33,9 +33,9 @@ class Templates extends Loader_Registry {
 	 * @since 1.0.0
 	 * @var string The name of the abstract class this service locator uses.
 	 */
-	protected $abstraction_class = 'Underpin_Nicholas\Abstracts\Template';
+	protected $abstraction_class = 'Nicholas\Abstracts\Template';
 
-	protected $default_factory = 'Underpin_Nicholas\Factories\Template_Instance';
+	protected $default_factory = 'Nicholas\Factories\Template_Instance';
 
 	protected function set_default_items() {}
 
