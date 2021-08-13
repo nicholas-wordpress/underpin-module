@@ -3,7 +3,7 @@
 namespace Nicholas\Rest_Endpoints;
 
 
-use Nicholas\Abstracts\Theme_Endpoint;
+use Nicholas\Abstracts\Nicholas_Endpoint;
 use Nicholas\Nicholas;
 use WP_REST_Request;
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Compatibility_Mode_Urls extends Theme_Endpoint {
+class Compatibility_Mode_Urls extends Nicholas_Endpoint {
 
 	public $name                    = 'Compatibility Mode URLS';
 	public $description             = 'Retrieves compatibility mode URLS';

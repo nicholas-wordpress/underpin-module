@@ -3,7 +3,7 @@
 namespace Nicholas\Rest_Endpoints;
 
 
-use Nicholas\Abstracts\Theme_Endpoint;
+use Nicholas\Abstracts\Nicholas_Endpoint;
 use WP_REST_Request;
 use function Nicholas\nicholas;
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Update_Settings extends Theme_Endpoint {
+class Update_Settings extends Nicholas_Endpoint {
 
 	public $name           = 'Update Settings Endpoint';
 	public $description    = 'Updates theme settings';

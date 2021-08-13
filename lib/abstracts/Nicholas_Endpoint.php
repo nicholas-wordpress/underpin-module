@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Theme_Endpoint extends Rest_Endpoint{
-	public $rest_namespace = 'theme/v1';
+abstract class Nicholas_Endpoint extends Rest_Endpoint{
+	public $rest_namespace = 'nicholas/v1';
 
 }

@@ -89,10 +89,10 @@ class Nicholas extends Underpin {
 	protected function _setup_params( $file ) {
 
 		// Root file for this plugin. Used in activation hooks.
-		$this->file = trailingslashit( get_template_directory() ) . 'functions.php';
+		$this->file = $file;
 
 		// Root directory for this plugin.
-		$this->dir = get_template_directory();
+		$this->dir = dirname($file);
 
 		$this->url = get_template_directory_uri();
 

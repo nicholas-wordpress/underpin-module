@@ -4,7 +4,7 @@
 namespace Nicholas\Rest_Endpoints;
 
 
-use Nicholas\Abstracts\Theme_Endpoint;
+use Nicholas\Abstracts\Nicholas_Endpoint;
 use WP_REST_Request;
 use function Nicholas\nicholas;
 
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cache_Status extends Theme_Endpoint {
+class Cache_Status extends Nicholas_Endpoint {
 
 	public $name           = 'Cache Status';
 	public $description    = 'Fetches info about the cache';

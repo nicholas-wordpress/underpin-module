@@ -3,7 +3,7 @@
 namespace Nicholas\Rest_Endpoints;
 
 
-use Nicholas\Abstracts\Theme_Endpoint;
+use Nicholas\Abstracts\Nicholas_Endpoint;
 use Nicholas\Nicholas;
 use WP_REST_Request;
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Page_Data extends Theme_Endpoint {
+class Page_Data extends Nicholas_Endpoint {
 
 	public $name        = 'Page Data Endpoint';
 	public $description = 'Fetches data about the specified page';
