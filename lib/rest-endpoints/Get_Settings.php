@@ -1,10 +1,11 @@
 <?php
 
-namespace Theme\Rest_Endpoints;
+namespace Underpin_Nicholas\Rest_Endpoints;
 
 
 use Underpin_Rest_Endpoints\Abstracts\Rest_Endpoint;
 use WP_REST_Request;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,8 +19,8 @@ class Get_Settings extends Rest_Endpoint {
 
 	function endpoint( WP_REST_Request $request ) {
 		return rest_ensure_response( [
-			'theme_last_updated'      => theme()->options()->get( 'theme_last_updated' )->get(),
-			'compatibility_mode_urls' => theme()->options()->get( 'compatibility_mode_urls' )->get(),
+			'theme_last_updated'      => nicholas()->options()->get( 'theme_last_updated' )->get(),
+			'compatibility_mode_urls' => nicholas()->options()->get( 'compatibility_mode_urls' )->get(),
 		] );
 	}
 

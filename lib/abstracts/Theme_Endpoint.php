@@ -1,6 +1,6 @@
 <?php
 
-namespace Theme\Abstracts;
+namespace Underpin_Nicholas\Abstracts;
 
 
 use Underpin_Rest_Endpoints\Abstracts\Rest_Endpoint;

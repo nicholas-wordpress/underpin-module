@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Theme\Scripts;
+namespace Underpin_Nicholas\Scripts;
 
 
 use Underpin_Scripts\Abstracts\Script;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,7 +24,7 @@ class Theme extends Script {
 		$this->handle        = 'theme';
 		$this->localized_var = 'theme_vars';
 		$this->src           = get_template_directory_uri() . '/build/theme.js';
-		$this->deps          = theme()->dir() . 'build/theme.asset.php';
+		$this->deps          = nicholas()->dir() . 'build/theme.asset.php';
 		$this->name          = 'Theme Object';
 		$this->in_footer     = true;
 		$this->description   = 'The global theme object';
@@ -62,7 +63,7 @@ class Theme extends Script {
 	 * @return array|\WP_Error|null
 	 */
 	public function preload_request( $endpoint, $params = [] ) {
-		$request = \Theme\Nicholas::request( 'GET', $endpoint, $params );
+		$request = \Underpin_Nicholas\Nicholas::request( 'GET', $endpoint, $params );
 
 		if ( ! is_wp_error( $request ) ) {
 			$this->preload_data[ add_query_arg( $params, $endpoint ) ] = $request;

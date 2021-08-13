@@ -1,11 +1,12 @@
 <?php
 
-namespace Theme\Rest_Endpoints;
+namespace Underpin_Nicholas\Rest_Endpoints;
 
 
-use Theme\Abstracts\Theme_Endpoint;
-use Theme\Nicholas;
+use Underpin_Nicholas\Abstracts\Theme_Endpoint;
+use Underpin_Nicholas\Nicholas;
 use WP_REST_Request;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -26,7 +27,7 @@ class Comment_Output extends Theme_Endpoint {
 		}
 
 		$result = Nicholas::with_path( $path, function ( $path ) {
-			return theme()->templates()->get_template( 'comments', 'comments' );
+			return nicholas()->templates()->get_template( 'comments', 'comments' );
 		} );
 
 		return [ 'output' => $result ];

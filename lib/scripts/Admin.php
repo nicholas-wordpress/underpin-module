@@ -1,9 +1,10 @@
 <?php
 
-namespace Theme\Scripts;
+namespace Underpin_Nicholas\Scripts;
 
 
 use Underpin_Scripts\Abstracts\Script;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -14,7 +15,7 @@ class Admin extends Script {
 	public function __construct() {
 		$this->handle      = 'admin';
 		$this->src         = get_template_directory_uri() . '/build/admin.js';
-		$this->deps        = theme()->dir() . 'build/admin.asset.php';
+		$this->deps        = nicholas()->dir() . 'build/admin.asset.php';
 		$this->name        = 'Admin Script';
 		$this->description = 'Admin Customizations';
 		parent::__construct();

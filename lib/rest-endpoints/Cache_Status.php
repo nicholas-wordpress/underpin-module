@@ -1,11 +1,12 @@
 <?php
 
 
-namespace Theme\Rest_Endpoints;
+namespace Underpin_Nicholas\Rest_Endpoints;
 
 
-use Theme\Abstracts\Theme_Endpoint;
+use Underpin_Nicholas\Abstracts\Theme_Endpoint;
 use WP_REST_Request;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,7 +31,7 @@ class Cache_Status extends Theme_Endpoint {
 
 
 		return rest_ensure_response( [
-			'theme_last_updated' => theme()->options()->get( 'theme_last_updated' )->get(),
+			'theme_last_updated' => nicholas()->options()->get( 'theme_last_updated' )->get(),
 			'post_last_updated'  => date( 'U', strtotime( $last_updated->posts[0]->post_modified_gmt ) ),
 		] );
 	}

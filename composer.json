@@ -20,6 +20,6 @@
         "underpin/debug-bar-extension": "^1.0"
     },
     "autoload": {
-        "files": ["Nicholas.php"]
+        "files": ["nicholas.php"]
     }
 }

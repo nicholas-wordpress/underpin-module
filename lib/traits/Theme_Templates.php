@@ -7,9 +7,10 @@
  * @package Underpin\Traits
  */
 
-namespace Theme\Traits;
+namespace Underpin_Nicholas\Traits;
 
 use Underpin\Traits\Templates;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -26,7 +27,7 @@ trait Theme_Templates {
 	use Templates;
 
 	protected function get_template_root_path() {
-		return theme()->template_dir();
+		return nicholas()->template_dir();
 	}
 
 	/**

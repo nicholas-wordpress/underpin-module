@@ -1,6 +1,6 @@
 <?php
 /**
- * Theme
+ * Nicholas
  *
  * Singleton instance of Underpin. Starts up the plugin, houses all loaders.
  * See https://github.com/underpin-WP/underpin
@@ -8,9 +8,9 @@
  * @since 1.0.0
  */
 
-namespace Theme;
+namespace Underpin_Nicholas;
 
-use Theme\Loaders\Templates;
+use Underpin_Nicholas\Loaders\Templates;
 use Underpin\Abstracts\Underpin;
 use Underpin\Factories\Loader_Registry_Item;
 use Underpin_Meta\Loaders\Meta;
@@ -39,7 +39,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string Complete namespace for all loaders.
 	 */
-	protected $root_namespace = 'Theme';
+	protected $root_namespace = 'Underpin_Nicholas';
 
 	/**
 	 * Translation Text domain.
@@ -99,7 +99,7 @@ class Nicholas extends Underpin {
 		if ( $response->is_error() ) {
 			$error = $response->as_error();
 
-			theme()->logger()->log_wp_error( 'error', $error, [
+			nicholas()->logger()->log_wp_error( 'error', $error, [
 				'ref'     => $endpoint,
 				'context' => 'endpoint',
 				'params'  => $params,
@@ -173,7 +173,7 @@ class Nicholas extends Underpin {
 
 			$compat_mode_urls = self::get_urls_for_query( $compat_mode_args );
 
-			$urls = theme()->options()->get( 'compatibility_mode_urls' )->get();
+			$urls = nicholas()->options()->get( 'compatibility_mode_urls' )->get();
 
 			if ( empty( $urls ) ) {
 				$urls = [];
@@ -289,29 +289,29 @@ class Nicholas extends Underpin {
 	 * @return void
 	 */
 	protected function _setup() {
-		$this->loaders()->add( 'templates', [ 'registry' => 'Theme\Loaders\Templates' ] );
+		$this->loaders()->add( 'templates', [ 'registry' => 'Underpin_Nicholas\Loaders\Templates' ] );
 
 		/**
 		 * Register default scripts.
 		 */
-		$this->scripts()->add( 'theme', 'Theme\Scripts\Theme' );
-		$this->scripts()->add( 'editor', 'Theme\Scripts\Editor' );
-		$this->scripts()->add( 'admin', 'Theme\Scripts\Admin' );
+		$this->scripts()->add( 'theme', 'Underpin_Nicholas\Scripts\Theme' );
+		$this->scripts()->add( 'editor', 'Underpin_Nicholas\Scripts\Editor' );
+		$this->scripts()->add( 'admin', 'Underpin_Nicholas\Scripts\Admin' );
 
 		/**
 		 * Register REST Endpoints
 		 */
-		$this->rest_endpoints()->add( 'page_data', 'Theme\Rest_Endpoints\Page_Data' );
-		$this->rest_endpoints()->add( 'compatibility_mode_urls', 'Theme\Rest_Endpoints\Compatibility_Mode_Urls' );
-		$this->rest_endpoints()->add( 'get_settings', 'Theme\Rest_Endpoints\Get_Settings' );
-		$this->rest_endpoints()->add( 'update_settings', 'Theme\Rest_Endpoints\Update_Settings' );
-		$this->rest_endpoints()->add( 'last_updated', 'Theme\Rest_Endpoints\Cache_Status' );
-		$this->rest_endpoints()->add( 'last_updated', 'Theme\Rest_Endpoints\Comment_Output' );
+		$this->rest_endpoints()->add( 'page_data', 'Underpin_Nicholas\Rest_Endpoints\Page_Data' );
+		$this->rest_endpoints()->add( 'compatibility_mode_urls', 'Underpin_Nicholas\Rest_Endpoints\Compatibility_Mode_Urls' );
+		$this->rest_endpoints()->add( 'get_settings', 'Underpin_Nicholas\Rest_Endpoints\Get_Settings' );
+		$this->rest_endpoints()->add( 'update_settings', 'Underpin_Nicholas\Rest_Endpoints\Update_Settings' );
+		$this->rest_endpoints()->add( 'last_updated', 'Underpin_Nicholas\Rest_Endpoints\Cache_Status' );
+		$this->rest_endpoints()->add( 'last_updated', 'Underpin_Nicholas\Rest_Endpoints\Comment_Output' );
 
 		/**
 		 * Register Options
 		 */
-		$this->options()->add( 'compatibility_mode_urls', 'Theme\Options\Compatibility_Mode_Urls' );
+		$this->options()->add( 'compatibility_mode_urls', 'Underpin_Nicholas\Options\Compatibility_Mode_Urls' );
 		$this->options()->add( 'theme_last_updated', [
 			'key'           => 'theme_last_updated',
 			'default_value' => '',

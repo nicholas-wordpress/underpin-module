@@ -1,10 +1,11 @@
 <?php
 
-namespace Theme\Rest_Endpoints;
+namespace Underpin_Nicholas\Rest_Endpoints;
 
 
-use Theme\Abstracts\Theme_Endpoint;
+use Underpin_Nicholas\Abstracts\Theme_Endpoint;
 use WP_REST_Request;
+use function Underpin_Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,10 +24,10 @@ class Update_Settings extends Theme_Endpoint {
 		$flush_cache             = (bool) $request->get_param( 'flush_cache' );
 
 		if ( isset( $compatibility_mode_urls ) ) {
-			theme()->options()->get( 'compatibility_mode_urls' )->update( $compatibility_mode_urls );
+			nicholas()->options()->get( 'compatibility_mode_urls' )->update( $compatibility_mode_urls );
 		}
 		if ( true === $flush_cache ) {
-			theme()->options()->get( 'theme_last_updated' )->update( current_time( 'U', 1 ) );
+			nicholas()->options()->get( 'theme_last_updated' )->update( current_time( 'U', 1 ) );
 		}
 
 		return [ 'updated' => true, 'compatibility_mode_urls' => $compatibility_mode_urls, 'flush_cache' => $flush_cache ];
