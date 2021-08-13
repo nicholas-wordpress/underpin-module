@@ -6,11 +6,11 @@
  * @package
  */
 
-namespace Underpin_Nicholas\Loaders;
+namespace Nicholas\Loaders;
 
-use Underpin_Nicholas\Abstracts\Template;
+use Nicholas\Abstracts\Template;
 use Underpin\Abstracts\Registries\Loader_Registry;
-use function Underpin_Nicholas\nicholas;
+use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

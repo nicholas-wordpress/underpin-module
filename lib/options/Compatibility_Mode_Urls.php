@@ -1,6 +1,6 @@
 <?php
 
-namespace Underpin_Nicholas\Options;
+namespace Nicholas\Options;
 
 
 use Underpin_Options\Abstracts\Option;

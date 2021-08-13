@@ -1,6 +1,6 @@
 <?php
 
-namespace Underpin_Nicholas\Factories;
+namespace Nicholas\Factories;
 
 
 use Underpin\Traits\Instance_Setter;

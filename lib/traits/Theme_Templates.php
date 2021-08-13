@@ -7,10 +7,10 @@
  * @package Underpin\Traits
  */
 
-namespace Underpin_Nicholas\Traits;
+namespace Nicholas\Traits;
 
 use Underpin\Traits\Templates;
-use function Underpin_Nicholas\nicholas;
+use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

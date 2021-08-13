@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Underpin_Nicholas\Scripts;
+namespace Nicholas\Scripts;
 
 
 use Underpin_Scripts\Abstracts\Script;
-use function Underpin_Nicholas\nicholas;
+use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -63,7 +63,7 @@ class Theme extends Script {
 	 * @return array|\WP_Error|null
 	 */
 	public function preload_request( $endpoint, $params = [] ) {
-		$request = \Underpin_Nicholas\Nicholas::request( 'GET', $endpoint, $params );
+		$request = \Nicholas\Nicholas::request( 'GET', $endpoint, $params );
 
 		if ( ! is_wp_error( $request ) ) {
 			$this->preload_data[ add_query_arg( $params, $endpoint ) ] = $request;

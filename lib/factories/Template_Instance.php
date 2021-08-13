@@ -1,8 +1,8 @@
 <?php
 
-namespace Underpin_Nicholas\Factories;
+namespace Nicholas\Factories;
 
-use Underpin_Nicholas\Abstracts\Template;
+use Nicholas\Abstracts\Template;
 use Underpin\Traits\Instance_Setter;
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Underpin_Nicholas\Scripts;
+namespace Nicholas\Scripts;
 
 
 use Underpin_Scripts\Abstracts\Script;
-use function Underpin_Nicholas\nicholas;
+use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -8,9 +8,9 @@
  * @since 1.0.0
  */
 
-namespace Underpin_Nicholas;
+namespace Nicholas;
 
-use Underpin_Nicholas\Loaders\Templates;
+use Nicholas\Loaders\Templates;
 use Underpin\Abstracts\Underpin;
 use Underpin\Factories\Loader_Registry_Item;
 use Underpin_Meta\Loaders\Meta;

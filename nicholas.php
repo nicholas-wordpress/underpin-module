@@ -1,6 +1,6 @@
 <?php
 
-namespace Underpin_Nicholas;
+namespace Nicholas;
 
 use Underpin\Abstracts\Underpin;
 

@@ -6,9 +6,9 @@
  * @package
  */
 
-namespace Underpin_Nicholas\Abstracts;
+namespace Nicholas\Abstracts;
 
-use Underpin_Nicholas\Traits\Theme_Templates;
+use Nicholas\Traits\Theme_Templates;
 use Underpin\Factories\Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {

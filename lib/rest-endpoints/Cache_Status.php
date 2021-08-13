@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Underpin_Nicholas\Rest_Endpoints;
+namespace Nicholas\Rest_Endpoints;
 
 
-use Underpin_Nicholas\Abstracts\Theme_Endpoint;
+use Nicholas\Abstracts\Theme_Endpoint;
 use WP_REST_Request;
-use function Underpin_Nicholas\nicholas;
+use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
