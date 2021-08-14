@@ -14,8 +14,8 @@ class Editor extends Script {
 
 	public function __construct() {
 		$this->handle      = 'nicholas-editor';
-		$this->src         = nicholas()->asset_url() . 'build/editor.js';
-		$this->deps        = nicholas()->asset_dir() . 'build/editor.asset.php';
+		$this->src         = nicholas()->asset_url() . 'editor.js';
+		$this->deps        = nicholas()->asset_dir() . 'editor.asset.php';
 		$this->name        = 'Editor Script';
 		$this->description = 'Admin Editor Customizations';
 		parent::__construct();

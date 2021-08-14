@@ -14,8 +14,8 @@ class Admin extends Script {
 
 	public function __construct() {
 		$this->handle      = 'admin';
-		$this->src         = nicholas()->asset_url() . '/build/admin.js';
-		$this->deps        = nicholas()->asset_dir() . 'build/admin.asset.php';
+		$this->src         = nicholas()->asset_url() . 'admin.js';
+		$this->deps        = nicholas()->asset_dir() . 'admin.asset.php';
 		$this->name        = 'Admin Script';
 		$this->description = 'Admin Customizations';
 		parent::__construct();
