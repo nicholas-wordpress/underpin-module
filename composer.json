@@ -14,7 +14,8 @@
         "underpin/script-loader": "^1.1",
         "underpin/rest-endpoint-loader": "^1.0",
         "underpin/meta-loader": "^1.0",
-        "underpin/option-loader": "^1.0"
+        "underpin/option-loader": "^1.0",
+        "underpin/template-loader": "^1.0"
     },
     "require-dev": {
         "underpin/debug-bar-extension": "^1.0"
