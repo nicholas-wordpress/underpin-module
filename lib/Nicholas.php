@@ -123,17 +123,41 @@ class Nicholas extends Underpin {
 		// The template directory. Used by the template loader to determine where templates are stored.
 		$this->template_dir = $this->dir . 'templates/';
 
-		// Asset directory
+		/**
+		 * Filters the asset directory. Defaults to current theme root/build
+		 *
+		 * @since 1.0.0
+		 * @param string $dir - The directory.
+		 */
 		$this->asset_dir = apply_filters( 'nicholas/asset_dir', trailingslashit( get_template_directory() ) . 'build' );
 
-		// Assets URL
+		/**
+		 * Filters the asset directory. Defaults to current theme root/build
+		 *
+		 * @since 1.0.0
+		 * @param string $dir - The url.
+		 */
 		$this->asset_url = apply_filters( 'nicholas/asset_url', trailingslashit( get_template_directory_uri() ) . 'build' );
 	}
 
+	/**
+	 * Retrieve the theme's asset directory
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	public function asset_dir() {
 		return trailingslashit( $this->asset_dir );
 	}
 
+	/**
+	 * Retrieve the theme's asset url
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	public function asset_url() {
 		return trailingslashit( $this->asset_url );
 	}
