@@ -82,7 +82,7 @@ class Theme extends Script {
 	 * leverage the object cache to preload this data for the REST API.
 	 */
 	public function preload_query() {
-		$endpoint = '/theme/v1/page-info';
+		$endpoint = '/nicholas/v1/page-info';
 		$url      = wp_parse_url( $_SERVER['REQUEST_URI'] );
 		$args     = [ 'path' => $url['path'] ];
 		$this->preload_request( $endpoint, $args );
