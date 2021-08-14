@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Get_Settings extends Rest_Endpoint {
 
 	public $name           = 'Get Settings Endpoint';
-	public $description    = 'Fetches theme settings';
+	public $description    = 'Fetches Nicholas settings';
 	public $route          = '/settings';
 
 	function endpoint( WP_REST_Request $request ) {
 		return rest_ensure_response( [
-			'theme_last_updated'      => nicholas()->options()->get( 'theme_last_updated' )->get(),
+			'nicholas_last_updated'      => nicholas()->options()->get( 'nicholas_last_updated' )->get(),
 			'compatibility_mode_urls' => nicholas()->options()->get( 'compatibility_mode_urls' )->get(),
 		] );
 	}

@@ -31,7 +31,7 @@ class Cache_Status extends Nicholas_Endpoint {
 
 
 		return rest_ensure_response( [
-			'theme_last_updated' => nicholas()->options()->get( 'theme_last_updated' )->get(),
+			'nicholas_last_updated' => nicholas()->options()->get( 'nicholas_last_updated' )->get(),
 			'post_last_updated'  => date( 'U', strtotime( $last_updated->posts[0]->post_modified_gmt ) ),
 		] );
 	}

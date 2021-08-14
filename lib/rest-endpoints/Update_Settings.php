@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Update_Settings extends Nicholas_Endpoint {
 
 	public $name           = 'Update Settings Endpoint';
-	public $description    = 'Updates theme settings';
-	public $rest_namespace = 'theme/v1';
+	public $description    = 'Updates Nicholas settings';
+	public $rest_namespace = 'nicholas/v1';
 	public $args           = [ 'methods' => 'POST' ];
 	public $route          = '/settings/update';
 
@@ -27,7 +27,7 @@ class Update_Settings extends Nicholas_Endpoint {
 			nicholas()->options()->get( 'compatibility_mode_urls' )->update( $compatibility_mode_urls );
 		}
 		if ( true === $flush_cache ) {
-			nicholas()->options()->get( 'theme_last_updated' )->update( current_time( 'U', 1 ) );
+			nicholas()->options()->get( 'nicholas_last_updated' )->update( current_time( 'U', 1 ) );
 		}
 
 		return [ 'updated' => true, 'compatibility_mode_urls' => $compatibility_mode_urls, 'flush_cache' => $flush_cache ];

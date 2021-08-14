@@ -50,7 +50,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string
 	 */
-	protected $text_domain = 'theme';
+	protected $text_domain = 'nicholas';
 
 	/**
 	 * Minimum PHP Version.
@@ -80,6 +80,24 @@ class Nicholas extends Underpin {
 	protected $version = '1.0.0';
 
 	/**
+	 * The current theme directory.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected $asset_dir = '';
+
+	/**
+	 * The current theme url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected $asset_url = '';
+
+	/**
 	 * Setup plugin params using the provided __FILE__
 	 *
 	 * @since 1.0.0
@@ -94,7 +112,7 @@ class Nicholas extends Underpin {
 		// Root directory for this plugin.
 		$this->dir = dirname($file);
 
-		$this->url = get_template_directory_uri();
+		$this->url = plugin_dir_url( $this->file );
 
 		// The CSS URL for this plugin. Used in asset loading.
 		$this->css_url = $this->url . 'build';
@@ -104,6 +122,20 @@ class Nicholas extends Underpin {
 
 		// The template directory. Used by the template loader to determine where templates are stored.
 		$this->template_dir = $this->dir . 'templates/';
+
+		// Asset directory
+		$this->asset_dir = apply_filters( 'nicholas/asset_dir', trailingslashit( get_template_directory() ) . 'build' );
+
+		// Assets URL
+		$this->asset_url = apply_filters( 'nicholas/asset_url', trailingslashit( get_template_directory_uri() ) . 'build' );
+	}
+
+	public function asset_dir() {
+		return $this->asset_dir;
+	}
+
+	public function asset_url() {
+		return $this->asset_url;
 	}
 
 	/**
@@ -152,7 +184,7 @@ class Nicholas extends Underpin {
 			return true;
 		}
 
-		$result = wp_cache_get( 'theme_use_compatibility_mode' );
+		$result = wp_cache_get( 'nicholas_use_compatibility_mode' );
 
 		if ( false === $result ) {
 			$result = false;
@@ -169,7 +201,7 @@ class Nicholas extends Underpin {
 					break;
 				}
 			}
-			wp_cache_add( 'theme_compatibility_mode_urls', $result );
+			wp_cache_add( 'nicholas_compatibility_mode_urls', $result );
 		}
 
 		return $result;
@@ -183,7 +215,7 @@ class Nicholas extends Underpin {
 	 * @return false|mixed
 	 */
 	public static function get_compatibility_mode_urls() {
-		$urls = wp_cache_get( 'theme_compatibility_mode_urls' );
+		$urls = wp_cache_get( 'nicholas_compatibility_mode_urls' );
 
 		if ( false === $urls ) {
 			$compat_mode_args = [
@@ -213,13 +245,13 @@ class Nicholas extends Underpin {
 			 *
 			 * @param [string] $urls list of URLs to enforce compatibility mode
 			 */
-			$urls = apply_filters( 'theme/compatibility_mode_urls', array_merge( $compat_mode_urls, $urls ) );
+			$urls = apply_filters( 'nicholas/compatibility_mode_urls', array_merge( $compat_mode_urls, $urls ) );
 
 			// No need to send repeated URLs
 			$urls = array_unique( $urls );
 
 			// Cache this so we don't have to-do it again.
-			wp_cache_add( 'theme_compatibility_mode_urls', maybe_serialize( $urls ) );
+			wp_cache_add( 'nicholas_compatibility_mode_urls', maybe_serialize( $urls ) );
 		} else {
 			$urls = maybe_unserialize( $urls );
 		}
@@ -337,8 +369,8 @@ class Nicholas extends Underpin {
 		 * Register Options
 		 */
 		$this->options()->add( 'compatibility_mode_urls', 'Nicholas\Options\Compatibility_Mode_Urls' );
-		$this->options()->add( 'theme_last_updated', [
-			'key'           => 'theme_last_updated',
+		$this->options()->add( 'nicholas_last_updated', [
+			'key'           => 'nicholas_last_updated',
 			'default_value' => '',
 		] );
 
@@ -378,7 +410,7 @@ class Nicholas extends Underpin {
 				 *
 				 * @since 1.0.0
 				 */
-				do_action( 'theme/enqueue_app_scripts' );
+				do_action( 'nicholas/enqueue_app_scripts' );
 			}
 		} );
 	}

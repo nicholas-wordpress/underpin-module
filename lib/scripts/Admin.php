@@ -30,19 +30,19 @@ class Admin extends Script {
 	public function setup_admin_page() {
 		add_submenu_page(
 			'options-general.php',
-			'Theme Settings',
-			'Theme Settings',
+			'Nicholas Settings',
+			'Nicholas Settings',
 			'administrator',
-			'theme-settings',
+			'nicholas-settings',
 			function () {
 				echo '<div id="app"></div>';
 			} );
 	}
 
 	public function enqueue() {
-		$is_theme_settings = get_current_screen()->base === 'settings_page_theme-settings';
+		$is_nicholas_settings = get_current_screen()->base === 'settings_page_nicholas-settings';
 
-		if ( $is_theme_settings ) {
+		if ( $is_nicholas_settings ) {
 			parent::enqueue();
 			// Root URL
 			wp_add_inline_script(

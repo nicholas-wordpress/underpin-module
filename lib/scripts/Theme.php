@@ -23,8 +23,8 @@ class Theme extends Script {
 	public function __construct() {
 		$this->handle        = 'theme';
 		$this->localized_var = 'theme_vars';
-		$this->src           = get_template_directory_uri() . '/build/theme.js';
-		$this->deps          = nicholas()->dir() . 'build/theme.asset.php';
+		$this->src           = nicholas()->asset_url() . '/theme.js';
+		$this->deps          = nicholas()->asset_dir() . 'theme.asset.php';
 		$this->name          = 'Theme Object';
 		$this->in_footer     = true;
 		$this->description   = 'The global theme object';

@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Editor extends Script {
 
 	public function __construct() {
-		$this->handle      = 'theme-editor';
-		$this->src         = get_template_directory_uri() . '/build/editor.js';
-		$this->deps        = nicholas()->dir() . 'build/editor.asset.php';
+		$this->handle      = 'nicholas-editor';
+		$this->src         = nicholas()->asset_url() . '/build/editor.js';
+		$this->deps        = nicholas()->asset_dir() . 'build/editor.asset.php';
 		$this->name        = 'Editor Script';
 		$this->description = 'Admin Editor Customizations';
 		parent::__construct();
