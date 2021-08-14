@@ -131,11 +131,11 @@ class Nicholas extends Underpin {
 	}
 
 	public function asset_dir() {
-		return $this->asset_dir;
+		return trailingslashit( $this->asset_dir );
 	}
 
 	public function asset_url() {
-		return $this->asset_url;
+		return trailingslashit( $this->asset_url );
 	}
 
 	/**
