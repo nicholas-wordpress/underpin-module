@@ -10,7 +10,7 @@
 
 namespace Nicholas;
 
-use Nicholas\Loaders\Templates;
+use Underpin_Templates\Loaders\Templates;
 use Underpin\Abstracts\Underpin;
 use Underpin\Factories\Loader_Registry_Item;
 use Underpin_Meta\Loaders\Meta;
@@ -316,8 +316,6 @@ class Nicholas extends Underpin {
 	 * @return void
 	 */
 	protected function _setup() {
-		$this->loaders()->add( 'templates', [ 'registry' => 'Nicholas\Loaders\Templates' ] );
-
 		/**
 		 * Register default scripts.
 		 */
