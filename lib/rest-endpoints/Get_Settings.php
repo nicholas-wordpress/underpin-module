@@ -3,7 +3,7 @@
 namespace Nicholas\Rest_Endpoints;
 
 
-use Underpin_Rest_Endpoints\Abstracts\Rest_Endpoint;
+use Nicholas\Abstracts\Nicholas_Endpoint;
 use WP_REST_Request;
 use function Nicholas\nicholas;
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Get_Settings extends Rest_Endpoint {
+class Get_Settings extends Nicholas_Endpoint {
 
 	public $name           = 'Get Settings Endpoint';
 	public $description    = 'Fetches Nicholas settings';
