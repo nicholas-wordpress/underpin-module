@@ -24,6 +24,3 @@ require_once( trailingslashit( dirname( __FILE__ ) ) . 'lib/Nicholas.php' );
 function nicholas() {
 	return ( new Nicholas )->get( __FILE__ );
 }
-
-// Rock and roll
-nicholas();
