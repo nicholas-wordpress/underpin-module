@@ -27,7 +27,8 @@ class Editor extends Script {
 	}
 
 	public function enqueue() {
-		if ( get_current_screen()->is_block_editor() ) {
+		// Only load this on block editor pages that have a CPT.
+		if ( get_current_screen()->is_block_editor() && get_post_type() ) {
 			parent::enqueue();
 		}
 	}
