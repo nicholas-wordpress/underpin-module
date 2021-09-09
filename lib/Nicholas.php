@@ -349,6 +349,15 @@ class Nicholas extends Underpin {
 		$uri                    = trailingslashit( $path );
 		$_SERVER['REQUEST_URI'] = $uri;
 		$wp                     = new WP();
+
+		foreach ( get_post_types( [], 'objects' ) as $post_type ) {
+			$post_type->add_rewrite_rules();
+		}
+
+		foreach( get_taxonomies([],'objects') as $taxonomy ){
+			$taxonomy->add_rewrite_rules();
+		}
+
 		$wp->parse_request();
 		query_posts( $wp->query_vars );
 		$post = get_post( $wp_query->posts[0] );
