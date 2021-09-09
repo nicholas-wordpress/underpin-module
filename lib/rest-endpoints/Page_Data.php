@@ -49,7 +49,8 @@ class Page_Data extends Nicholas_Endpoint {
 		}
 
 		// Get things specific to this query.
-		$body_class = get_body_class();
+		// Array values ensure that this will be an array in the JSON response.
+		$body_class = array_values( get_body_class() );
 
 		if ( ! isset( $type ) ) {
 			switch ( true ) {
