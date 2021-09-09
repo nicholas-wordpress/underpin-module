@@ -77,7 +77,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string
 	 */
-	protected $version = '1.0.0';
+	protected $version = '1.0.1';
 
 	/**
 	 * The current theme directory.
