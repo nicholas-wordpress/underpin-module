@@ -208,6 +208,17 @@ class Nicholas extends Underpin {
 	}
 
 	/**
+	 * Instructs the client to flush the cache on-load.
+	 *
+	 * @since 1.0.2
+	 */
+	public static function flush_session_cache() {
+		if ( ! isset( $_COOKIE["nicholas_flush_cache"] ) ) {
+			setcookie( 'nicholas_flush_cache', true );
+		}
+	}
+
+	/**
 	 * Returns true if this page should be loaded using compatibility mode.
 	 *
 	 * @since 1.0.0
@@ -379,6 +390,18 @@ class Nicholas extends Underpin {
 		$this->scripts()->add( 'theme', 'Nicholas\Scripts\Theme' );
 		$this->scripts()->add( 'editor', 'Nicholas\Scripts\Editor' );
 		$this->scripts()->add( 'admin', 'Nicholas\Scripts\Admin' );
+		$this->scripts()->add( 'session_manager', [
+			'handle'      => 'sessionManager',
+			'src'         => $this->asset_url() . 'sessionManager.js',
+			'deps'        => $this->asset_dir() . 'sessionManager.asset.php',
+			'name'        => 'Nicholas Session Manager',
+			'description' => 'Clears the current session data when the server instructs it to-do so.',
+			// Enqueue Session manager on admin and login screens
+			'middlewares' => [
+				'Underpin_Scripts\Factories\Enqueue_Admin_Script',
+				'Underpin_Scripts\Factories\Enqueue_Login_Script'
+			]
+		] );
 
 		/**
 		 * Register REST Endpoints
@@ -489,6 +512,10 @@ class Nicholas extends Underpin {
 				do_action( 'nicholas/enqueue_app_scripts' );
 			}
 		} );
+
+		// Force this session to clear the cache when a user logs in, or logs out.
+		add_action( 'wp_logout', [ $this, 'flush_session_cache' ] );
+		add_action( 'wp_login', [ $this, 'flush_session_cache' ] );
 	}
 
 

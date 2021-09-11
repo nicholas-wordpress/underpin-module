@@ -27,8 +27,9 @@ This is an [Underpin](github.com/underpin-WP/underpin) module, and the entrypoin
 This module assumes that your theme has 3 scripts built-into the `build` directory of your theme:
 
 1. admin.js - Gets enqueued in the settings screen located in **Settings>>>Nicholas Settings**
-1. editor.js - Gets enqueued on block editor pages
-1. theme.js - Gets enqueued on front-end pages that are not using compatibility mode
+2. editor.js - Gets enqueued on block editor pages
+3. theme.js - Gets enqueued on front-end pages that are not using compatibility mode
+4. sessionManager.js - Forces a session to clear the cache if the `nicholas_flush_cache` cookie is set.
 
 ## REST Endpoints
 
