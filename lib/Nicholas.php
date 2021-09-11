@@ -77,7 +77,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string
 	 */
-	protected $version = '1.0.1';
+	protected $version = '1.0.2';
 
 	/**
 	 * The current theme directory.
@@ -192,6 +192,17 @@ class Nicholas extends Underpin {
 		}
 
 		return [ 'body' => $response->get_data(), 'headers' => $response->get_headers() ];
+	}
+
+	/**
+	 * Forces Nicholas' cache to be flushed on all devices.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @return bool True if flushed, otherwise false.
+	 */
+	public static function flush_cache() {
+		return nicholas()->options()->get( 'nicholas_last_updated' )->update( current_time( 'U', 1 ) );
 	}
 
 	/**
