@@ -27,7 +27,7 @@ class Update_Settings extends Nicholas_Endpoint {
 			nicholas()->options()->get( 'compatibility_mode_urls' )->update( $compatibility_mode_urls );
 		}
 		if ( true === $flush_cache ) {
-			nicholas()->options()->get( 'nicholas_last_updated' )->update( current_time( 'U', 1 ) );
+			nicholas()::flush_cache();
 		}
 
 		return [ 'updated' => true, 'compatibility_mode_urls' => $compatibility_mode_urls, 'flush_cache' => $flush_cache ];

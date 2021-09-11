@@ -10,6 +10,7 @@
 
 namespace Nicholas;
 
+use Underpin_Decision_Lists\Loaders\Decision_Lists;
 use Underpin_Templates\Loaders\Templates;
 use Underpin\Abstracts\Underpin;
 use Underpin\Factories\Loader_Registry_Item;
@@ -29,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @method Templates templates() Template loader. All actions related to loading templates go through here.
  * @method Meta meta() Meta loader. All custom metadata is registered, and accessed through this.
  * @method Options options() Options loader. All options are registered, and accessed through this.
+ * @method Decision_Lists decision_lists() Decision list loader. Creates extend-able, cached decisions.
  */
 class Nicholas extends Underpin {
 
@@ -77,7 +79,7 @@ class Nicholas extends Underpin {
 	 *
 	 * @var string
 	 */
-	protected $version = '1.0.1';
+	protected $version = '1.0.2';
 
 	/**
 	 * The current theme directory.
@@ -195,6 +197,28 @@ class Nicholas extends Underpin {
 	}
 
 	/**
+	 * Forces Nicholas' cache to be flushed on all devices.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @return bool True if flushed, otherwise false.
+	 */
+	public static function flush_cache() {
+		return nicholas()->options()->get( 'nicholas_last_updated' )->update( current_time( 'U', 1 ) );
+	}
+
+	/**
+	 * Instructs the client to flush the cache on-load.
+	 *
+	 * @since 1.0.2
+	 */
+	public static function flush_session_cache() {
+		if ( ! isset( $_COOKIE["nicholas_flush_cache"] ) ) {
+			setcookie( 'nicholas_flush_cache', true );
+		}
+	}
+
+	/**
 	 * Returns true if this page should be loaded using compatibility mode.
 	 *
 	 * @since 1.0.0
@@ -202,33 +226,12 @@ class Nicholas extends Underpin {
 	 * @return bool true if compatibility mode should be used, otherwise false.
 	 */
 	public static function use_compatibility_mode() {
+		$decision = nicholas()->decision_lists()->decide( 'use_compatibility_mode', [
+			'request' => $_REQUEST,
+			'url'     => wp_parse_url( $_SERVER['REQUEST_URI'] )
+		] );
 
-		// If compatibility mode was forced via GET, return.
-		if ( isset( $_REQUEST['compatibility-mode'] ) ) {
-			return true;
-		}
-
-		$result = wp_cache_get( 'nicholas_use_compatibility_mode' );
-
-		if ( false === $result ) {
-			$result = false;
-
-			// Get the current path.
-			$current_path = wp_parse_url( $_SERVER['REQUEST_URI'] )['path'];
-
-			foreach ( self::get_compatibility_mode_urls() as $url ) {
-				$url = wp_parse_url( $url )['path'];
-
-				// If the paths match, this should use compatibility mode.
-				if ( $url === $current_path ) {
-					$result = true;
-					break;
-				}
-			}
-			wp_cache_add( 'nicholas_compatibility_mode_urls', $result );
-		}
-
-		return $result;
+		return true === $decision;
 	}
 
 	/**
@@ -387,6 +390,18 @@ class Nicholas extends Underpin {
 		$this->scripts()->add( 'theme', 'Nicholas\Scripts\Theme' );
 		$this->scripts()->add( 'editor', 'Nicholas\Scripts\Editor' );
 		$this->scripts()->add( 'admin', 'Nicholas\Scripts\Admin' );
+		$this->scripts()->add( 'session_manager', [
+			'handle'      => 'sessionManager',
+			'src'         => $this->asset_url() . 'sessionManager.js',
+			'deps'        => $this->asset_dir() . 'sessionManager.asset.php',
+			'name'        => 'Nicholas Session Manager',
+			'description' => 'Clears the current session data when the server instructs it to-do so.',
+			// Enqueue Session manager on admin and login screens
+			'middlewares' => [
+				'Underpin_Scripts\Factories\Enqueue_Admin_Script',
+				'Underpin_Scripts\Factories\Enqueue_Login_Script'
+			]
+		] );
 
 		/**
 		 * Register REST Endpoints
@@ -428,6 +443,57 @@ class Nicholas extends Underpin {
 			},
 		] );
 
+		/**
+		 * Decision Lists
+		 */
+		$this->decision_lists()->add( 'use_compatibility_mode', [
+			// Force compatibility mode by setting a compatibility-mode query param
+			'compatibility_mode_forced' => [
+				'name'                   => 'Compatibility Mode Forced',
+				'description'            => 'Returns true when the compatibility-mode query param is set',
+				'valid_callback'         => function ( $args ) {
+					if ( isset( $args['request']['compatibility-mode'] ) ) {
+						return true;
+					}
+
+					return new WP_Error( 'compatibility_mode_var_not_set', 'The compatibility mode variable is not set' );
+				},
+				'valid_actions_callback' => '__return_true',
+			],
+
+			// Check compat mode URLs.
+			'is_compatibility_mode_url' => [
+				'priority'       => 100,
+				'name'           => 'Is Compatibility Mode URL',
+				'description'    => 'Returns true when the current URL is on the list of compatibility mode URLs',
+				'valid_callback' => function ( $args ) {
+					// Get the current path.
+					$current_path = $args['url']['path'];
+
+					foreach ( self::get_compatibility_mode_urls() as $url ) {
+						$url = wp_parse_url( $url )['path'];
+
+						// If the paths match, this should use compatibility mode.
+						if ( $url === $current_path ) {
+							return true;
+						}
+					}
+
+					return new WP_Error( 'url_not_found', 'The current URL does not match any of the compatibility mode URLs' );
+				},
+				'valid_actions_callback' => '__return_true',
+			],
+
+			// Default
+			'default' => [
+				'priority'               => 1000,
+				'name'                   => 'Default',
+				'description'            => 'When all else fails, assume this URL is not using compatibility mode.',
+				'valid_callback'         => '__return_true',
+				'valid_actions_callback' => '__return_false',
+			],
+		] );
+
 		// Maybe enqueue extra scripts for the app
 		add_action( 'wp_enqueue_scripts', function () {
 			if ( ! self::use_compatibility_mode() ) {
@@ -446,6 +512,10 @@ class Nicholas extends Underpin {
 				do_action( 'nicholas/enqueue_app_scripts' );
 			}
 		} );
+
+		// Force this session to clear the cache when a user logs in, or logs out.
+		add_action( 'wp_logout', [ $this, 'flush_session_cache' ] );
+		add_action( 'wp_login', [ $this, 'flush_session_cache' ] );
 	}
 
 
