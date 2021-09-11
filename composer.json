@@ -12,6 +12,7 @@
     "require": {
         "underpin/underpin": "^1.3",
         "underpin/script-loader": "^1.1",
+        "underpin/decision-list-loader": "^1.0",
         "underpin/rest-endpoint-loader": "^1.0",
         "underpin/meta-loader": "^1.0",
         "underpin/option-loader": "^1.0",

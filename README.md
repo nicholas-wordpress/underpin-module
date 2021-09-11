@@ -12,13 +12,15 @@ This module is used in [a theme boilerplate](https://github.com/nicholas-wordpre
 
 ## Extending
 
-This is an [Underpin](github.com/underpin-WP/underpin) module, and the entrypoint for it is using the function `nicholas`, and it comes built-in with a handful of loaders:
+This is an [Underpin](github.com/underpin-WP/underpin) module, and the entrypoint for it is using the function
+`nicholas`, and it comes built-in with a handful of loaders:
 
 1. Script loader
-1. Rest Endpoint Loader
-1. Meta Loader
-1. Option Loader
-1. Template Loader
+2. Rest Endpoint Loader
+3. Meta Loader
+4. Option Loader
+5. Template Loader
+6. Decision List Loader
 
 ## Scripts
 
@@ -30,4 +32,5 @@ This module assumes that your theme has 3 scripts built-into the `build` directo
 
 ## REST Endpoints
 
-This module loads in a set of endpoints in the `nicholas/v1` namespace. These endpoints are used by the various scripts mentioned above to run the nearly-headless paradigm.
+This module loads in a set of endpoints in the `nicholas/v1` namespace. These endpoints are used by the various scripts
+mentioned above to run the nearly-headless paradigm.
