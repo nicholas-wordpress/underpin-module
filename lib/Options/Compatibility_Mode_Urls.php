@@ -3,7 +3,7 @@
 namespace Nicholas\Options;
 
 
-use Underpin_Options\Abstracts\Option;
+use Underpin\Options\Abstracts\Option;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

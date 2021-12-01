@@ -10,13 +10,14 @@
 
 namespace Nicholas;
 
-use Underpin_Decision_Lists\Loaders\Decision_Lists;
-use Underpin_Templates\Loaders\Templates;
+use Underpin\Factories\Accumulator;
+use Underpin\Factories\Observer;
+use Underpin\Templates\Loaders\Templates;
 use Underpin\Abstracts\Underpin;
-use Underpin\Factories\Loader_Registry_Item;
-use Underpin_Meta\Loaders\Meta;
-use Underpin_Options\Loaders\Options;
-use Underpin_Scripts\Loaders\Scripts;
+use Underpin\Abstracts\Registries\Object_Registry;
+use Underpin\Meta\Loaders\Meta;
+use Underpin\Options\Loaders\Options;
+use Underpin\Scripts\Loaders\Scripts;
 use WP;
 use WP_Error;
 
@@ -26,11 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * @method Scripts scripts() Script loader. All actions related to scripts goe through here.
- * @method Loader_Registry_Item rest_endpoints() Rest Endpoint loader. all actions related to REST go through here.
+ * @method Object_Registry rest_endpoints() Rest Endpoint loader. all actions related to REST go through here.
  * @method Templates templates() Template loader. All actions related to loading templates go through here.
  * @method Meta meta() Meta loader. All custom metadata is registered, and accessed through this.
  * @method Options options() Options loader. All options are registered, and accessed through this.
- * @method Decision_Lists decision_lists() Decision list loader. Creates extend-able, cached decisions.
  */
 class Nicholas extends Underpin {
 
@@ -123,7 +123,7 @@ class Nicholas extends Underpin {
 		$this->js_url = $this->url . 'build';
 
 		// The template directory. Used by the template loader to determine where templates are stored.
-		$this->template_dir = $this->dir . 'templates/';
+		$this->template_dir = $this->dir() . 'templates/';
 
 		/**
 		 * Filters the asset directory. Defaults to current theme root/build
@@ -225,13 +225,14 @@ class Nicholas extends Underpin {
 	 *
 	 * @return bool true if compatibility mode should be used, otherwise false.
 	 */
-	public static function use_compatibility_mode() {
-		$decision = nicholas()->decision_lists()->decide( 'use_compatibility_mode', [
-			'request' => $_REQUEST,
-			'url'     => wp_parse_url( $_SERVER['REQUEST_URI'] )
-		] );
-
-		return true === $decision;
+	public function use_compatibility_mode() {
+		return true === $this->apply_filters( 'use_compatibility_mode', new Accumulator( [
+				'default'        => false,
+				'url'            => wp_parse_url( $_SERVER['REQUEST_URI'] ),
+				'valid_callback' => function ( $state ) {
+					return is_bool( $state );
+				},
+			] ) );
 	}
 
 	/**
@@ -398,8 +399,8 @@ class Nicholas extends Underpin {
 			'description' => 'Clears the current session data when the server instructs it to-do so.',
 			// Enqueue Session manager on admin and login screens
 			'middlewares' => [
-				'Underpin_Scripts\Factories\Enqueue_Admin_Script',
-				'Underpin_Scripts\Factories\Enqueue_Login_Script'
+				new \Underpin\Scripts\Factories\Enqueue_Admin_Script('admin_enqueue'),
+				new \Underpin\Scripts\Factories\Enqueue_Login_Script('login_enqueue')
 			]
 		] );
 
@@ -444,59 +445,40 @@ class Nicholas extends Underpin {
 		] );
 
 		/**
-		 * Decision Lists
+		 * Decide on compatibility mode.
 		 */
-		$this->decision_lists()->add( 'use_compatibility_mode', [
-			// Force compatibility mode by setting a compatibility-mode query param
-			'compatibility_mode_forced' => [
-				'name'                   => 'Compatibility Mode Forced',
-				'description'            => 'Returns true when the compatibility-mode query param is set',
-				'valid_callback'         => function ( $args ) {
-					if ( isset( $args['request']['compatibility-mode'] ) ) {
-						return true;
+		self::attach( 'use_compatibility_mode', new Observer( 'compatibility_mode_forced', [
+			'name'           => 'Compatibility Mode Forced',
+			'description'    => 'Returns true when the compatibility-mode query param is set',
+			'valid_callback' => function ( $state, Accumulator $accumulator ) {
+				if ( isset( $_REQUEST['compatibility-mode'] ) ) {
+					$accumulator->update( true );
+				}
+			},
+		] ) );
+
+		self::attach( 'use_compatibility_mode', new Observer( 'is_compatibility_mode_url', [
+			'name'           => 'Compatibility Mode Forced',
+			'description'    => 'Returns true when the compatibility-mode query param is set',
+			'valid_callback' => function ( $state, Accumulator $accumulator ) {
+				// Get the current path.
+				$current_path = $accumulator->url['path'];
+
+				foreach ( self::get_compatibility_mode_urls() as $url ) {
+					$url = wp_parse_url( $url )['path'];
+
+					// If the paths match, this should use compatibility mode.
+					if ( $url === $current_path ) {
+						$accumulator->update( true );
+						return;
 					}
-
-					return new WP_Error( 'compatibility_mode_var_not_set', 'The compatibility mode variable is not set' );
-				},
-				'valid_actions_callback' => '__return_true',
-			],
-
-			// Check compat mode URLs.
-			'is_compatibility_mode_url' => [
-				'priority'       => 100,
-				'name'           => 'Is Compatibility Mode URL',
-				'description'    => 'Returns true when the current URL is on the list of compatibility mode URLs',
-				'valid_callback' => function ( $args ) {
-					// Get the current path.
-					$current_path = $args['url']['path'];
-
-					foreach ( self::get_compatibility_mode_urls() as $url ) {
-						$url = wp_parse_url( $url )['path'];
-
-						// If the paths match, this should use compatibility mode.
-						if ( $url === $current_path ) {
-							return true;
-						}
-					}
-
-					return new WP_Error( 'url_not_found', 'The current URL does not match any of the compatibility mode URLs' );
-				},
-				'valid_actions_callback' => '__return_true',
-			],
-
-			// Default
-			'default' => [
-				'priority'               => 1000,
-				'name'                   => 'Default',
-				'description'            => 'When all else fails, assume this URL is not using compatibility mode.',
-				'valid_callback'         => '__return_true',
-				'valid_actions_callback' => '__return_false',
-			],
-		] );
+				}
+			},
+		] ) );
 
 		// Maybe enqueue extra scripts for the app
 		add_action( 'wp_enqueue_scripts', function () {
-			if ( ! self::use_compatibility_mode() ) {
+			if ( ! $this->use_compatibility_mode() ) {
 				if ( get_option( 'thread_comments' ) ) {
 					wp_enqueue_script( 'comment-reply' );
 				}

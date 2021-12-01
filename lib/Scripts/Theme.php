@@ -4,7 +4,7 @@
 namespace Nicholas\Scripts;
 
 
-use Underpin_Scripts\Abstracts\Script;
+use Underpin\Scripts\Abstracts\Script;
 use function Nicholas\nicholas;
 
 if ( ! defined( 'ABSPATH' ) ) {

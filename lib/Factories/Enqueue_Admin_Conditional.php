@@ -4,7 +4,7 @@ namespace Nicholas\Factories;
 
 
 use Underpin\Traits\Instance_Setter;
-use Underpin_Scripts\Factories\Enqueue_Admin_Script;
+use Underpin\Scripts\Factories\Enqueue_Admin_Script;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
