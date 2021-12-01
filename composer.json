@@ -19,7 +19,7 @@
         "underpin/template-loader": "^1.0"
     },
     "require-dev": {
-        "underpin/debug-bar-extension": "^1.0"
+        "underpin/debug-bar-extension": "^2.0"
     },
     "autoload": {
         "files": ["nicholas.php"]
