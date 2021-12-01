@@ -3,7 +3,7 @@
 namespace Nicholas\Abstracts;
 
 
-use Underpin_Rest_Endpoints\Abstracts\Rest_Endpoint;
+use Underpin\Rest_Endpoints\Abstracts\Rest_Endpoint;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

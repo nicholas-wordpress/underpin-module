@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Nicholas\Rest_Endpoints;
+namespace Nicholas\Rest;
 
 
 use Nicholas\Abstracts\Nicholas_Endpoint;
