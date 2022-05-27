@@ -100,6 +100,15 @@ class Nicholas extends Underpin {
 	protected $asset_url = '';
 
 	/**
+	 * Compatibility mode.
+	 *
+	 * @since 1.1.1
+	 *
+	 * @var ?bool if in compatibility mode, otherwise false.
+	 */
+	protected $use_compatibility_mode = null;
+
+	/**
 	 * Setup plugin params using the provided __FILE__
 	 *
 	 * @since 1.0.0
@@ -226,13 +235,15 @@ class Nicholas extends Underpin {
 	 * @return bool true if compatibility mode should be used, otherwise false.
 	 */
 	public function use_compatibility_mode() {
-		return true === $this->apply_filters( 'use_compatibility_mode', new Accumulator( [
-				'default'        => false,
-				'url'            => wp_parse_url( $_SERVER['REQUEST_URI'] ),
-				'valid_callback' => function ( $state ) {
-					return is_bool( $state );
-				},
-			] ) );
+		if ( ! isset( $this->use_compatibility_mode ) ) {
+			$this->use_compatibility_mode = true === $this->apply_filters( 'use_compatibility_mode', new Accumulator( [
+					'default'        => false,
+					'url'            => wp_parse_url( $_SERVER['REQUEST_URI'] ),
+					'valid_callback' => 'is_bool',
+				] ) );
+		}
+
+		return $this->use_compatibility_mode;
 	}
 
 	/**
@@ -358,7 +369,7 @@ class Nicholas extends Underpin {
 			$post_type->add_rewrite_rules();
 		}
 
-		foreach( get_taxonomies([],'objects') as $taxonomy ){
+		foreach ( get_taxonomies( [], 'objects' ) as $taxonomy ) {
 			$taxonomy->add_rewrite_rules();
 		}
 
@@ -399,9 +410,9 @@ class Nicholas extends Underpin {
 			'description' => 'Clears the current session data when the server instructs it to-do so.',
 			// Enqueue Session manager on admin and login screens
 			'middlewares' => [
-				new \Underpin\Scripts\Factories\Enqueue_Admin_Script('admin_enqueue'),
-				new \Underpin\Scripts\Factories\Enqueue_Login_Script('login_enqueue')
-			]
+				new \Underpin\Scripts\Factories\Enqueue_Admin_Script( 'admin_enqueue' ),
+				new \Underpin\Scripts\Factories\Enqueue_Login_Script( 'login_enqueue' ),
+			],
 		] );
 
 		/**
